@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carreira.exe — O Candidato</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9e7f5;--card:#fff;--tx:#1b1840;--mut:#625f86;--bd:#c9c5e6;--ac:#4a2fe0;--ok:#0f7a55;--bad:#c42b49;--p:#d97a00;--c:#cf2f78;--t:#1f6fd1;--gl:#f3f1ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13113a;--card:#1d1a52;--tx:#eceaff;--mut:#a7a3d6;--bd:#3a3690;--ac:#9a86ff;--ok:#42e0a0;--bad:#ff7088;--p:#ffb73a;--c:#ff77ae;--t:#62b0ff;--gl:#26226a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#13113a;--card:#1d1a52;--tx:#eceaff;--mut:#a7a3d6;--bd:#3a3690;--ac:#9a86ff;--ok:#42e0a0;--bad:#ff7088;--p:#ffb73a;--c:#ff77ae;--t:#62b0ff;--gl:#26226a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{max-width:680px;margin:0 auto;padding:18px 16px 40px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+#av{font-size:34px;cursor:pointer;user-select:none}
+h1{font:14px/1.4 "Press Start 2P",monospace;margin:0;color:var(--ac)}
+header small{color:var(--mut);display:block;font-size:13px}
+.bar{height:10px;background:var(--gl);border:2px solid var(--bd);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .5s}
+.bar.sm{height:8px;flex:1}
+#pl{font-size:13px;color:var(--mut);margin:6px 0 10px}
+.st{display:flex;align-items:center;gap:8px;font-size:13px;margin:4px 0}
+.st span{width:128px;flex:none}.st b{width:30px;text-align:right}
+.p{background:var(--p)!important}.cu{background:var(--c)!important}.t{background:var(--t)!important}
+main{background:var(--card);border:2px solid var(--bd);border-radius:6px;padding:22px 20px;margin-top:14px;box-shadow:5px 5px 0 var(--bd)}
+.ph{font:11px/1.6 "Press Start 2P",monospace;color:var(--ac)}
+.tag{color:var(--mut);font-style:italic;margin:6px 0 14px}
+h2{font-size:19px;line-height:1.45;margin:0 0 16px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--tx);background:var(--gl);border:2px solid var(--bd);border-radius:4px;padding:12px 14px;margin:10px 0;cursor:pointer;transition:transform .12s,border-color .12s}
+.opt:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}
+.opt:focus-visible,.btn:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.opt:disabled{cursor:default;opacity:.62}
+.opt.sel{opacity:1;border-color:var(--ac)}
+.opt em{display:block;font-size:12px;font-style:normal;margin-top:4px;font-weight:700}
+.opt em.ok{color:var(--ok)}.opt em.bad{color:var(--bad)}
+.fb{border-left:5px solid var(--ac);background:var(--gl);padding:12px 14px;margin:16px 0;border-radius:0 4px 4px 0}
+.fb.bad{border-color:var(--bad)}.fb.ok{border-color:var(--ok)}
+.btn{display:inline-block;font:12px/1.4 "Press Start 2P",monospace;background:var(--ac);color:var(--card);border:0;border-radius:4px;padding:14px 18px;cursor:pointer;text-decoration:none;margin:6px 8px 0 0}
+.btn.alt{background:transparent;color:var(--ac);border:2px solid var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 16px}
+.chips span{font-size:13px;background:var(--gl);border:1px solid var(--bd);border-radius:20px;padding:3px 11px}
+.sec{border:2px dashed var(--ok);border-radius:6px;padding:14px 16px;margin:16px 0}
+.sec.lock{border-color:var(--bd);color:var(--mut)}
+.sec h3{font:12px/1.6 "Press Start 2P",monospace;margin:0 0 10px}
+.sec li{margin:6px 0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ac);color:var(--card);padding:10px 16px;border-radius:6px;opacity:0;transition:.3s;pointer-events:none;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+<header><span id="av" title="O Candidato">🧑‍💻</span><div><h1>CARREIRA.EXE</h1><small>O Candidato · Jonathan Kauã Lima Silva</small></div></header>
+<div id="hud" hidden>
+<div class="bar"><i id="pg"></i></div><div id="pl"></div>
+<div class="st"><span>⚡ Produtividade</span><div class="bar sm"><i id="b0" class="p"></i></div><b id="v0"></b></div>
+<div class="st"><span>🤝 Fit Cultural</span><div class="bar sm"><i id="b1" class="cu"></i></div><b id="v1"></b></div>
+<div class="st"><span>🛠️ Hab. Técnica</span><div class="bar sm"><i id="b2" class="t"></i></div><b id="v2"></b></div>
+</div>
+<main id="scr"></main>
+</div>
+<div id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x)e.textContent=x;return e};
+const K={s:{n:"Soft skill",d:[6,12,2]},h:{n:"Hard skill",d:[10,2,12]},w:{n:"Plot twist",d:[-6,-4,-5]}};
+const PH=[
+["🎧","Fase 1 · Concentrix, Suporte Wheelz","Oito meses, oito vezes o melhor do setor. Aqui nasce o ritmo de aprendizado do Candidato."],
+["🧩","Fase 2 · Unifametro & IzzyWay","Lógica, qualidade e suporte técnico: o Candidato descobre que todo problema tem uma regra."],
+["📊","Fase 3 · Aeris Energy","Excel, SQL, n8n e IA entram em cena. Dados bagunçados são o novo chefe de fase."],
+["🛰️","Fase 4 · Alloha, Projeto Atrix","Rotas, OLTs e switches. Chefão final: a rede não perdoa achismo."]];
+const S=[
+{p:0,q:"A fila está lotada e um parceiro Uber liga irritado com uma ocorrência confusa no Bliss. As métricas do turno estão caindo.",sk:"Empatia e comunicação clara",
+o:[["s","Acalmar o parceiro, ouvir o caso inteiro e confirmar o entendimento antes de agir.","Empatia primeiro: resolve de primeira e evita retrabalho."],
+["h","Cruzar o histórico no Bliss, verificar a ocorrência e resolver em uma única tratativa.","Domínio do sistema e eficiência na resolução, marca registrada do Candidato."],
+["w","Transferir para o “outro setor”, que não existe.","O parceiro agradece... em outra dimensão. Quem foi o melhor do setor por 8 meses não empurra problema."]]},
+{p:0,q:"Um novo fluxo de atendimento é lançado e ninguém entendeu. O gestor quer acompanhamento das métricas até sexta.",sk:"Aprendizado rápido e Excel aplicado",
+o:[["h","Montar uma planilha no Excel para estruturar os fluxos e acompanhar as métricas de atendimento.","Excel como ferramenta de visibilidade: o gestor ganha o painel antes do prazo."],
+["s","Aprender o fluxo primeiro e ensinar os colegas em 10 minutos no fim do turno.","Altíssima velocidade de aprendizado, e o time inteiro sobe de nível."],
+["w","Imprimir tudo e colar no monitor com post-its coloridos.","O monitor ficou lindo, a métrica nem tanto."]]},
+{p:1,q:"Num processo de qualidade, as falhas aparecem de forma intermitente e ninguém sabe qual regra está sendo quebrada.",sk:"Lógica e tabelas-verdade para regras de negócio",
+o:[["h","Montar uma tabela-verdade com todas as combinações e transformá-la em regras de negócio.","Raciocínio lógico-matemático virando regra clara e testável."],
+["s","Acompanhar o fluxo com o time, perguntar e documentar o que ninguém tinha escrito.","Escuta ativa: a regra estava na cabeça das pessoas, agora está no papel."],
+["w","Apostar no “acho que é isso” e torcer.","Torcer não é metodologia. O Candidato prefere tabela-verdade a sorte."]]},
+{p:1,q:"Os materiais operacionais estão cada um num formato e, de quebra, um usuário abre um chamado de TI.",sk:"Suporte técnico e padronização de processos",
+o:[["s","Resolver o chamado e deixar um passo a passo simples para o usuário não depender de ninguém.","Suporte que ensina: menos chamados repetidos no futuro."],
+["h","Criar um modelo padrão de material e aplicar melhoria contínua com lógica analítica.","Padronização que escala: um modelo, zero confusão."],
+["w","Reiniciar tudo. Sempre. “Já tentou desligar e ligar?”","Às vezes funciona, mas sem investigar a causa o problema volta."]]},
+{p:2,q:"As planilhas de pedidos têm categorias duplicadas e o gestor pede o relatório para amanhã.",sk:"Excel avançado, Tabelas Dinâmicas e SQL",
+o:[["h","Categorizar os dados, montar a Tabela Dinâmica e validar os totais com uma consulta SQL.","Excel + SQL: relatório rápido e totais conferidos."],
+["s","Alinhar com o gestor quais decisões o relatório vai apoiar e entregar o essencial primeiro.","Dados orientados à decisão, não só à tabela bonita."],
+["w","Criar 47 abas coloridas. Ninguém acha nada, mas está lindo.","Ninguém acha nada, mas está lindo. Dado sem estrutura não vira insight."]]},
+{p:2,q:"Uma tarefa manual e repetitiva consome duas horas do setor todos os dias.",sk:"Automação com n8n e IA generativa",
+o:[["h","Montar um fluxo no n8n, padronizando o fluxo de dados da rotina.","Automação de rotina: horas devolvidas ao time todos os dias."],
+["s","Mostrar ao time como usar IA com bons prompts para agilizar o trabalho burocrático.","Prompts bem escritos e conhecimento compartilhado: produtividade coletiva."],
+["w","Contratar um estagiário imaginário para copiar e colar.","Ele nunca erra, mas também nunca existiu. A solução real era automatizar."]]},
+{p:3,q:"Os técnicos de campo cruzam a cidade em rotas ineficientes e os indicadores logísticos estão caindo.",sk:"Análise de dados logísticos e indicadores de controle",
+o:[["h","Analisar os dados de deslocamento na plataforma Atrix e redesenhar as rotas.","Dados de deslocamento viram rotas mais eficientes e confiáveis."],
+["s","Conversar com os técnicos de campo e definir indicadores de controle claros com todos.","Quem está na rua conhece o gargalo, e o indicador passa a fazer sentido."],
+["w","Sortear as rotas. A sorte tem que ajudar alguém.","A sorte ajudou ninguém. Os indicadores agradecem a volta dos dados."]]},
+{p:3,q:"Chefão final: o cliente quer agendar a instalação numa região, mas a rede está instável e o campo está pressionando.",sk:"Troubleshooting de rede (OLTs, Switches e MobaXterm)",
+o:[["h","Acessar via MobaXterm, verificar OLTs e switches, fazer o troubleshooting e validar a viabilidade antes de agendar.","Validação técnica profunda: campo e capacidade de rede alinhados."],
+["s","Alinhar campo e rede sobre a capacidade real e comunicar prazos honestos ao cliente.","Transparência com cliente e equipe: confiança é parte da infraestrutura."],
+["w","Agendar tudo e rezar para a fibra aguentar.","A fibra não ouviu a reza. Agendar sem validar gera retrabalho em campo."]]}
+];
+const TOT=S.length;
+let i,st,err,sk,bonus=0,clicks=0;
+function toast(m){const t=$("toast");t.textContent=m;t.className="on";setTimeout(()=>t.className="",2800)}
+function hud(n){[0,1,2].forEach(k=>{$("b"+k).style.width=Math.min(100,Math.max(0,st[k]*1.25))+"%";$("v"+k).textContent=st[k]});$("pg").style.width=(n/TOT*100)+"%"}
+function intro(){
+$("hud").hidden=true;
+$("scr").innerHTML="<p class='ph'>PRESS START</p><h2>Bem-vindo(a), recrutador(a).</h2><p>A vaga de Analista de Dados está aberta há semanas. Os currículos chegam, todos parecidos: palavras bonitas em PDF. Mas um deles tem algo diferente: cada linha foi vivida em campo, na fila, na planilha e na rede.</p><p>Hoje você não vai ler a carreira de Jonathan Kauã. Você vai <b>jogá-la</b>. Em quatro fases, controlará “O Candidato” e decidirá como resolver desafios reais.</p><p style='color:var(--mut)'>Cada cenário tem três ações. Observe seus pontos de <b>Produtividade</b>, <b>Fit Cultural</b> e <b>Habilidade Técnica</b>. Decisões certas revelam competências e podem desbloquear algo secreto.</p>";
+const b=el("button","btn","▶ INICIAR");b.onclick=start;$("scr").append(b)}
+function start(){i=0;st=[bonus?10:0,0,0];err=0;sk=[];$("hud").hidden=false;round()}
+function round(){
+const s=S[i],p=PH[s.p],m=$("scr"),opts=[...s.o].sort(()=>Math.random()-.5),btns=[];
+$("pl").textContent="Cenário "+(i+1)+" de "+TOT;hud(i);m.innerHTML="";
+m.append(el("div","ph",p[0]+" "+p[1]),el("p","tag",p[2]),el("h2","",s.q));
+opts.forEach(o=>{const b=el("button","opt",o[1]);b.onclick=()=>pick(o,b,btns);btns.push([b,o]);m.append(b)})}
+function pick(o,b,btns){
+const k=o[0];K[k].d.forEach((d,n)=>st[n]=Math.max(0,st[n]+d));
+if(k=="w")err++;else sk.push(S[i].sk);
+btns.forEach(([x,y])=>{x.disabled=true;const e=el("em",y[0]=="w"?"bad":"ok",K[y[0]].n);x.append(e)});
+b.classList.add("sel");hud(i+1);
+const f=el("div","fb "+(k=="w"?"bad":"ok"));
+f.append(el("b","",K[k].n+": "),document.createTextNode(o[2]));
+f.append(el("div","","🔓 Competência: "+S[i].sk));
+const n=el("button","btn",i+1<TOT?"PRÓXIMO ▶":"VER RESULTADO ▶");
+n.onclick=()=>{i++;i<TOT?round():end()};
+$("scr").append(f,n);n.focus()}
+function end(){
+$("pl").textContent="Fim de jogo";
+const un=err<=1,r=err<=1?"Contratação recomendada 🏆":err<=3?"Candidato promissor ⭐":"Vale uma segunda partida 🔁";
+const m=$("scr");
+m.innerHTML="<p class='ph'>FIM DE JOGO</p><h2>"+r+"</h2><p>Você revelou <b>"+sk.length+" de "+TOT+"</b> competências do Candidato.</p>";
+const c=el("div","chips");[...new Set(sk)].forEach(x=>c.append(el("span","",x)));m.append(c);
+const d=el("div","sec"+(un?"":" lock"));
+if(un){d.innerHTML="<h3>🔓 PORTFÓLIO SECRETO</h3><p>Boas decisões desbloqueiam o que não cabe numa página de currículo:</p><ul><li>🧠 <b>Prompt engineering:</b> geração de prompts para resolver problemas e acelerar a análise de dados.</li><li>🧮 <b>Tabelas-verdade:</b> regras de negócio criadas com lógica formal.</li><li>🎓 <b>Em formação:</b> Análise e Desenvolvimento de Sistemas (Unifametro, 2027) e Data Science (previsão: fim de 2026).</li><li>💻 <b>Stack:</b> Excel avançado, SQL, n8n, Git, Java, HTML e CSS.</li><li>🌎 <b>Inglês intermediário</b> para leitura técnica.</li><li>🏍️ <b>CNH AB:</b> pronto para campo, presencial, híbrido ou remoto.</li></ul>"}
+else d.innerHTML="<h3>🔒 PORTFÓLIO SECRETO</h3><p>Bloqueado. Acerte pelo menos "+(TOT-1)+" cenários (no máximo 1 plot twist) para abrir.</p>";
+m.append(d);
+const a=el("button","btn","↻ JOGAR DE NOVO");a.onclick=start;m.append(a);
+[["✉️ E-MAIL","mailto:jonathankl08@gmail.com"],["LINKEDIN","https://linkedin.com/in/jonathankaua"],["GITHUB","https://github.com/jonathankl21"]].forEach(([t,h])=>{const l=el("a","btn alt",t);l.href=h;if(h[0]=="h"){l.target="_blank";l.rel="noopener"}m.append(l)})}
+$("av").onclick=()=>{if(++clicks==5&&!bonus){bonus=1;if(st)st[0]+=10;if(st&&!$("hud").hidden)hud(i);toast("🏍️ Easter egg! CNH AB: +10 Produtividade (zero trânsito).")}};
+intro();
+</script>
+</body>
+</html>
